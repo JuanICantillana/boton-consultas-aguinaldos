@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta de Aguinaldos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            padding: 40px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Consulta de Aguinaldos</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.rut.label }}<br>
+                {{ form.rut(size=40) }}
+                {% for error in form.rut.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            </p>
+            <p>{{ form.submit(class="btn") }}</p>
+        </form>
+
+        {% if resultado %}
+            <hr>
+            <p><strong>Nombre:</strong> {{ resultado['Nombre'] }}</p>
+            <p><strong>Monto Aguinaldo:</strong> ${{ "{:,.0f}".format(resultado['Monto']) }}</p>
+        {% elif form.rut.data %}
+            <hr>
+            <p style="color: red;">No se encontró información para el RUT ingresado.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
